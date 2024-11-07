@@ -28,11 +28,11 @@ public static class WebConfiguracao
         },
         PaletteDark = new PaletteDark()
         {
-            Secondary = "#ffaa00",
-            Primary = "#ffaa00",
+            Secondary = "#fff",
+            Primary = "#f17ea1",
             Success = "#ffaa00",
             Info = "#ffaa00",
-
+            TextPrimary = "#fff"
         },
 
     };

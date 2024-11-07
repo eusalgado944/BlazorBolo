@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BolosApi", "BolosApi\BolosA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BolosModel", "BolosModel\BolosModel.csproj", "{A5A3BB39-C586-4395-9582-532C97CB89C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BolosWeb", "BolosWeb\BolosWeb.csproj", "{9D4CCD3C-D99E-4FB7-8327-1739BD91AB66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BolosWeb", "BolosWeb\BolosWeb.csproj", "{9D4CCD3C-D99E-4FB7-8327-1739BD91AB66}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
