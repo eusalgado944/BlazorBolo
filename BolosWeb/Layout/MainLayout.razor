@@ -1,0 +1,105 @@
+﻿@using FscManager.WebApp
+@inherits LayoutComponentBase
+@* Required *@
+<MudThemeProvider />
+<MudPopoverProvider />@* Needed for dialogs *@
+<MudDialogProvider />@* Needed for snackbars *@
+<MudSnackbarProvider />
+
+<MudThemeProvider @ref="mudThemeProvider" Theme="WebConfiguracao.Theme" />
+<MudLayout>
+<MudAppBar Elevation="1" Fixed="true" Color="Color.Primary">
+<MudIconButton OnClick="@ToggleDrawer" Icon="@Icons.Material.Outlined.Menu" Color="Color.Inherit" Class="mr-5" />
+ 
+        <!-- Avatar com as iniciais do usuário e tooltip para o nome completo -->
+<MudSpacer />
+ 
+        <MudMenu Icon="@Icons.Material.Filled.Settings" Color="Color.Inherit">
+<MudMenuItem OnClick="OnSignOut">Sair..</MudMenuItem>
+</MudMenu>
+ 
+
+</MudAppBar>
+ 
+    <MudDrawer @bind-Open="@_open" Elevation="1">
+<MudNavMenu>
+<MudNavLink Icon="@Icons.Material.Filled.Home" Match="NavLinkMatch.All" Href="/">Home</MudNavLink>@* @* 
+<MudNavLink Icon="@Icons.Material.Filled.Work" Match="NavLinkMatch.All" Href="statusProd">Status Produção</MudNavLink> *@
+<MudNavLink Icon="@Icons.Material.Filled.Work" Match="NavLinkMatch.All" Href="Bolo">Carrinho</MudNavLink>
+ 
+        </MudNavMenu>
+</MudDrawer>
+ 
+    <MudMainContent Style="padding-top: 80px; padding-inline: 50px; height:100%">
+        @Body
+</MudMainContent>
+</MudLayout>
+
+@code {
+    [Inject] private IDialogService DialogService { get; set; }
+    [Inject] private NavigationManager NavigationManager { get; set; }
+    [Inject] private IJSRuntime JSRuntime { get; set; }
+
+    private string GetInitials(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            return "??";
+
+        var names = name.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (names.Length == 1)
+            return names[0].Substring(0, 1).ToUpper();
+
+        return $"{names[0][0]}{names[^1][0]}".ToUpper();
+    }
+
+    private async Task OnSignOut()
+    {
+        await JSRuntime.InvokeVoidAsync("localStorage.removeItem", "authToken");
+
+
+        NavigationManager.NavigateTo("/login", forceLoad: true);
+    }
+
+    private async Task GoBack()
+    {
+        NavigationManager.NavigateTo(NavigationManager.BaseUri);
+    }
+
+    private bool _isDarkMode = false;
+    private bool _open = false;
+
+    private void ToggleDrawer()
+    {
+        _open = !_open;
+    }
+
+    private async void OnButtonClicked_Notificacao()
+    {
+        bool? result = await DialogService.ShowMessageBox(
+            "",
+            "Sem Novas Notificações...",
+            yesText: "Ok!", cancelText: "");
+        state = result == null ? "Canceled" : "Deleted!";
+        StateHasChanged();
+    }
+
+    private string state = "";
+
+    private Task OnSystemPreferenceChanged(bool newValue)
+    {
+        _isDarkMode = newValue;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _isDarkMode = await mudThemeProvider.GetSystemPreference();
+            await mudThemeProvider.WatchSystemPreference(OnSystemPreferenceChanged);
+
+        }
+    }
+    private MudThemeProvider mudThemeProvider = null!;
+}
