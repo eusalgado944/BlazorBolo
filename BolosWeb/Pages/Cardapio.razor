@@ -7,8 +7,8 @@
 
 <PageTitle>Cardápio - A&L CAKES</PageTitle>
 
-<MudContainer MaxWidth="MaxWidth.Medium" Class="mt-4">
-    <MudText Typo="Typo.h4" Class="mb-4">Cardápio de Bolos</MudText>
+<MudContainer MaxWidth="MaxWidth.Medium" Class="mt-4 backgroud">
+    <MudText Typo="Typo.h4" Class="mb-4">Cardápio de Bolos🌸</MudText>
 
     <MudGrid>
         @foreach (var bolo in bolos)
@@ -56,11 +56,12 @@
        
         return boloId switch
         {
-            
+            4 => "./Img/BoloDeChocolate.png",
+            5 => "./Img/DoceDeLeite.png",
             7 => "./img/Prestigio.png",
             11 => "./img/DoceDeLeiteComAbacaxi.png",
             14 => "./img/NinhoComMorango.png",
-            _ => "./img/default.png"
+            _ => "./img/BoloIcon.png"
         };
     }
     private void MostrarDetalhes(Bolo bolo)
