@@ -14,7 +14,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IBoloRepository, BoloRepository>();
 
-
+builder.Services.AddCors(options => options.AddPolicy("origin", policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -25,6 +25,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
+app.UseCors("origin");
 app.MapControllers();
 
 app.Run();
