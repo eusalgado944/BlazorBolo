@@ -1,0 +1,18 @@
+﻿@using MudBlazor
+@inject MudDialogInstance Dialog
+@using BolosModel.Entities
+
+<MudDialog MaxWidth="MaxWidth.Small">
+    <MudDialogTitle>@bolo.Nome</MudDialogTitle>
+    <MudDialogContent>
+        <MudText Typo="Typo.body1">@bolo.Descricao</MudText>
+        <MudText Typo="Typo.subtitle2" Color="Color.Secondary" Class="mt-2">Preço: R$ @bolo.Valor.ToString("F2")</MudText>
+    </MudDialogContent>
+    <MudDialogActions>
+        <MudButton Color="Color.Primary" OnClick="() => Dialog.Close()">Fechar</MudButton>
+    </MudDialogActions>
+</MudDialog>
+
+@code {
+    [Parameter] public Bolo bolo { get; set; } = new Bolo();
+}

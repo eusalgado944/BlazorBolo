@@ -1,5 +1,46 @@
-﻿@page "/Cardapio"
+﻿@page "/cardapio"
+@using MudBlazor
+@using System.Net.Http.Json
+@inject HttpClient Http
+@inject BolosWeb.Pages.
+@using BolosModel.Entities
+
+<PageTitle>Cardápio - A&L CAKES</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Medium" Class="mt-4">
+    <MudText Typo="Typo.h4" Class="mb-4">Cardápio de Bolos</MudText>
+
+    <MudGrid>
+        @foreach (var bolo in bolos)
+        {
+            <MudItem xs="12" sm="6" md="4">
+                <MudCard>
+                    <MudCardMedia Src="@bolo.ImagemUrl" Style="width: 200px" />
+                    <MudCardContent>
+                        <MudText Typo="Typo.h6">@bolo.Nome</MudText>
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="() => MostrarDetalhes(bolo)">
+                            Ver Detalhes
+                        </MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+        }
+    </MudGrid>
+</MudContainer>
 
 @code {
+    private List<Bolo> bolos = new List<Bolo>();
 
+    protected override async Task OnInitializedAsync()
+    {
+        bolos = await Http.GetFromJsonAsync<List<Bolo>>("api/bolos");
+    }
+
+    private void MostrarDetalhes(Bolo bolo)
+    {
+        var parameters = new DialogParameters { ["bolo"] = bolo };
+        DialogService.Show<BoloDialog>("Detalhes do Bolo", parameters);
+    }
 }
