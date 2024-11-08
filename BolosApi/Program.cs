@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Adiciona o contexto do Entity Framework com SQL Server
 builder.Services.AddDbContext<BolosDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DataBase")));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
